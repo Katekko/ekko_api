@@ -8,7 +8,7 @@ class Environments {
 const String SECRET = 's3cr3t';
 
 class ConfigEnvironments {
-  static final String _currentEnvironments = Environments.LOCAL;
+  static final String _currentEnvironments = Environments.PRODUCTION;
   static List<Map<String, String>> _availableEnvironments = [
     {
       'env': Environments.LOCAL,
