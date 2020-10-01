@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:api_ekko/common/token.util.dart';
 import 'package:get_server/get_server.dart';
 
 import 'authenticate_user.controller.dart';
@@ -18,7 +19,9 @@ class AuthenticateUserEndpoint extends GetView<AuthenticateUserController> {
         password: body.password,
       );
 
-      var response = controller.createResponse(user: user);
+      var token = TokenUtil.generateToken(user);
+
+      var response = controller.createResponse(user: user, token: token);
 
       return Json(response);
     } catch (err) {

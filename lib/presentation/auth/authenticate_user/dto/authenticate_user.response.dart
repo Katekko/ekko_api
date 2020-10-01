@@ -1,5 +1,6 @@
 import 'package:api_ekko/presentation/shared/data/user.data.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:meta/meta.dart';
 
 part 'authenticate_user.response.g.dart';
 
@@ -9,7 +10,7 @@ class AuthenticateUserResponse {
   DataResponse data;
   String error;
 
-  AuthenticateUserResponse({this.success, this.data, this.error});
+  AuthenticateUserResponse({@required this.success, this.data, this.error});
 
   factory AuthenticateUserResponse.fromJson(Map<String, dynamic> json) =>
       _$AuthenticateUserResponseFromJson(json);
@@ -20,8 +21,9 @@ class AuthenticateUserResponse {
 @JsonSerializable()
 class DataResponse {
   UserData user;
+  String token;
 
-  DataResponse({this.user});
+  DataResponse({@required this.user, @required this.token});
 
   factory DataResponse.fromJson(Map<String, dynamic> json) =>
       _$DataResponseFromJson(json);

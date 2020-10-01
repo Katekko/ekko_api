@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:api_ekko/common/response.util.dart';
+import 'package:api_ekko/common/token.util.dart';
 import 'package:get_server/get_server.dart';
 
 import 'get_user_info.controller.dart';
@@ -10,7 +10,7 @@ class GetUserInfoEndpoint extends GetView<GetUserInfoController> {
   FutureOr<Widget> build(BuildContext context) async {
     context.response.type('application/json');
     try {
-      ResponseUtil.isTokenValid(context);
+      TokenUtil.isTokenValid(context);
       var user = await controller.getUserInfo();
       var response = controller.createResponse(user: user);
       return Json(response);

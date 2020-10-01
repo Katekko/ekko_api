@@ -5,6 +5,8 @@ class Environments {
   static const String LOCAL = 'local';
 }
 
+const String SECRET = 's3cr3t';
+
 class ConfigEnvironments {
   static final String _currentEnvironments = Environments.LOCAL;
   static List<Map<String, String>> _availableEnvironments = [

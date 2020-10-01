@@ -46,10 +46,13 @@ class AuthenticateUserController extends GetxController {
     return user;
   }
 
-  AuthenticateUserResponse createResponse({@required UserModel user}) {
+  AuthenticateUserResponse createResponse({
+    @required UserModel user,
+    @required String token,
+  }) {
     var response = AuthenticateUserResponse(
       success: true,
-      data: DataResponse(user: user.toData()),
+      data: DataResponse(user: user.toData(), token: token),
     );
 
     return response;
@@ -61,13 +64,13 @@ class AuthenticateUserController extends GetxController {
   ) {
     String error;
     switch (exception.runtimeType) {
-      case AuthenticationFailedException:
-        context.statusCode(404);
-        error = 'Usuario e/ou senha icorretos';
-        break;
       case InvalidBodyException:
         context.statusCode(400);
         error = exception.toString();
+        break;
+      case AuthenticationFailedException:
+        context.statusCode(404);
+        error = 'User and/or password is wrong';
         break;
       default:
         context.statusCode(500);

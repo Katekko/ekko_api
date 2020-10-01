@@ -1,9 +1,10 @@
 import 'package:api_ekko/domain/auth/auth.domain.service.dart';
 import 'package:api_ekko/domain/auth/models/user.model.dart';
+import 'package:api_ekko/domain/core/exceptions/expired_token.exception.dart';
 import 'package:api_ekko/domain/core/exceptions/invalid_body.exception.dart';
 import 'package:api_ekko/domain/core/exceptions/missing_token.exception.dart';
 import 'package:get_server/get_server.dart';
-
+import 'package:jaguar_jwt/jaguar_jwt.dart';
 import 'package:meta/meta.dart';
 
 import 'dto/get_user_info.response.dart';
@@ -41,6 +42,8 @@ class GetUserInfoController extends GetxController {
         context.statusCode(400);
         break;
       case MissingTokenException:
+      case ExpiredTokenException:
+      case JwtException:
         context.statusCode(401);
         break;
       default:
