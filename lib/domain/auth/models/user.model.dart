@@ -1,4 +1,4 @@
-import 'package:api_ekko/presentation/auth/authenticate_user/dto/authenticate_user.response.dart';
+import 'package:api_ekko/presentation/shared/data/user.data.dart';
 import 'package:meta/meta.dart';
 
 class UserModel {

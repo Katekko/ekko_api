@@ -6,6 +6,8 @@ dependencies:
   args: ^1.6.0
 
   get_server: ^0.6.3
+  jaguar_jwt: ^2.1.6
+
   # get_server:
   #   path: "C:/Projetos/Personal/get_server"
   # get_server:

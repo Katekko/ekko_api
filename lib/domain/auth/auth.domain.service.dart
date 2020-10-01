@@ -35,4 +35,18 @@ class AuthDomainService {
       rethrow;
     }
   }
+
+  Future<UserModel> getUserInfo() {
+    try {
+      return Future.value(
+        UserModel(
+          id: 1,
+          email: 'contato@gyanburuworld.com',
+          name: 'Katekko',
+        ),
+      );
+    } catch (err) {
+      rethrow;
+    }
+  }
 }

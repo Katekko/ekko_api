@@ -5,5 +5,6 @@ class Routes {
 
   static const HOME = '/';
   static const LOGIN = '/api/auth/login';
-  static const recover_password = '/api/auth/recover-password';
+  static const RECOVER_PASSWORD = '/api/auth/recover-password';
+  static const GET_USER_INFO = '/api/user';
 }

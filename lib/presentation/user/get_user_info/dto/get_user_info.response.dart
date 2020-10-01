@@ -1,20 +1,20 @@
 import 'package:api_ekko/presentation/shared/data/user.data.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-part 'authenticate_user.response.g.dart';
+part 'get_user_info.response.g.dart';
 
 @JsonSerializable()
-class AuthenticateUserResponse {
+class GetUserInfoResponse {
   bool success;
   DataResponse data;
   String error;
 
-  AuthenticateUserResponse({this.success, this.data, this.error});
+  GetUserInfoResponse({this.success, this.data, this.error});
 
-  factory AuthenticateUserResponse.fromJson(Map<String, dynamic> json) =>
-      _$AuthenticateUserResponseFromJson(json);
+  factory GetUserInfoResponse.fromJson(Map<String, dynamic> json) =>
+      _$GetUserInfoResponseFromJson(json);
 
-  Map<String, dynamic> toJson() => _$AuthenticateUserResponseToJson(this);
+  Map<String, dynamic> toJson() => _$GetUserInfoResponseToJson(this);
 }
 
 @JsonSerializable()

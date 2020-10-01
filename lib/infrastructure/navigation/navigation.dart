@@ -3,8 +3,10 @@ import 'package:api_ekko/infrastructure/navigation/bindings/endpoints/authentica
 import 'package:api_ekko/infrastructure/navigation/bindings/endpoints/recover_password.endpoint.binding.dart';
 import 'package:api_ekko/presentation/auth/authenticate_user/authenticate_user.endpoint.dart';
 import 'package:api_ekko/presentation/auth/recover_password/recover_password.endpoint.dart';
+import 'package:api_ekko/presentation/user/get_user_info/get_user_info.endpoint.dart';
 import 'package:get_server/get_server.dart';
 
+import 'bindings/endpoints/get_user_info.endpoint.binding.dart';
 import 'routes.dart';
 
 class Nav {
@@ -21,10 +23,16 @@ class Nav {
       binding: AuthenticateUserEndpointBinding(),
     ),
     GetPage(
-      name: Routes.recover_password,
+      name: Routes.RECOVER_PASSWORD,
       method: Method.post,
       page: () => RecuperarSenhaEndpoint(),
       binding: RecoverPasswordEndpointBinding(),
+    ),
+    GetPage(
+      name: Routes.GET_USER_INFO,
+      method: Method.get,
+      page: () => GetUserInfoEndpoint(),
+      binding: GetUserInfoEndpointBinding(),
     ),
   ];
 }
