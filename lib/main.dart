@@ -5,6 +5,7 @@ import 'package:args/args.dart';
 import 'package:get_server/get_server.dart';
 
 import 'config.dart';
+import 'jwt_key.dart';
 
 void main(List<String> args) {
   var parser = ArgParser()..addOption('port', abbr: 'p');
@@ -18,6 +19,7 @@ void main(List<String> args) {
       getPages: Nav.routes,
       host: ConfigEnvironments.getEnvironments()['url'],
       port: port,
+      jwtKey: JWT_KEY,
     ),
   );
 }

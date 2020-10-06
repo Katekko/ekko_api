@@ -33,6 +33,7 @@ class Nav {
       method: Method.get,
       page: () => GetUserInfoEndpoint(),
       binding: GetUserInfoEndpointBinding(),
+      needAuth: true,
     ),
   ];
 }

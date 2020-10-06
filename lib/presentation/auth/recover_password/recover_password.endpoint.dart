@@ -7,7 +7,6 @@ import 'recover_password.controller.dart';
 class RecuperarSenhaEndpoint extends GetView<RecoverPasswordController> {
   @override
   FutureOr<Widget> build(BuildContext context) async {
-    context.response.type('application/json');
     try {
       var payload = await context.request.payload();
       var body = await controller.validateBody(payload: payload);
