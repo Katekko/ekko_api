@@ -4,6 +4,7 @@ import 'package:get_server/get_server.dart';
 import 'package:jaguar_jwt/jaguar_jwt.dart';
 import 'package:get_server/src/core/utils/token_util.dart';
 
+import '../../../env.dart';
 import '../../../main.dart';
 import 'authenticate_user.controller.dart';
 
@@ -28,7 +29,7 @@ class AuthenticateUserEndpoint extends GetView<AuthenticateUserController> {
         issuedAt: DateTime.now(),
       );
 
-      var token = TokenUtil.generateToken(claim: claimSet, jwtKey: jwtKey);
+      var token = TokenUtil.generateToken(claim: claimSet, jwtKey: Env.jwtKey);
 
       var response = controller.createResponse(user: user, token: token);
 
