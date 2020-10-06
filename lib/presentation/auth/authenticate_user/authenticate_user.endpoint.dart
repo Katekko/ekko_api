@@ -1,10 +1,10 @@
 import 'dart:async';
 
-import 'package:api_ekko/jwt_key.dart';
 import 'package:get_server/get_server.dart';
 import 'package:jaguar_jwt/jaguar_jwt.dart';
 import 'package:get_server/src/core/utils/token_util.dart';
 
+import '../../../main.dart';
 import 'authenticate_user.controller.dart';
 
 class AuthenticateUserEndpoint extends GetView<AuthenticateUserController> {
@@ -28,7 +28,7 @@ class AuthenticateUserEndpoint extends GetView<AuthenticateUserController> {
         issuedAt: DateTime.now(),
       );
 
-      var token = TokenUtil.generateToken(claim: claimSet, jwtKey: JWT_KEY);
+      var token = TokenUtil.generateToken(claim: claimSet, jwtKey: jwtKey);
 
       var response = controller.createResponse(user: user, token: token);
 
