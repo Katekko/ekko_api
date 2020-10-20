@@ -2,8 +2,6 @@ import 'dart:async';
 
 import 'package:get_server/get_server.dart';
 
-import 'package:get_server/src/core/utils/token_util.dart';
-
 import 'authenticate_user.controller.dart';
 
 class AuthenticateUserEndpoint extends GetView<AuthenticateUserController> {

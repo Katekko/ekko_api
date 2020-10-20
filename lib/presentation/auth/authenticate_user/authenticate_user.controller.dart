@@ -1,4 +1,3 @@
-import 'package:api_ekko/config.dart';
 import 'package:api_ekko/domain/auth/auth.domain.service.dart';
 import 'package:api_ekko/domain/auth/models/user.model.dart';
 import 'package:api_ekko/domain/core/exceptions/authentication_failed.exception.dart';
