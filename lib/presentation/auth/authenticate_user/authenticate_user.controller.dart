@@ -1,8 +1,10 @@
+import 'package:api_ekko/config.dart';
 import 'package:api_ekko/domain/auth/auth.domain.service.dart';
 import 'package:api_ekko/domain/auth/models/user.model.dart';
 import 'package:api_ekko/domain/core/exceptions/authentication_failed.exception.dart';
 import 'package:api_ekko/domain/core/exceptions/invalid_body.exception.dart';
 import 'package:get_server/get_server.dart';
+import 'package:jaguar_jwt/jaguar_jwt.dart';
 
 import 'package:meta/meta.dart';
 
@@ -44,6 +46,23 @@ class AuthenticateUserController extends GetxController {
     );
 
     return user;
+  }
+
+  String generateToken({@required UserModel user}) {
+    try {
+      final claimSet = JwtClaim(
+        subject: user.id.toString(),
+        issuer: 'https://gyanburuworld.com/',
+        issuedAt: DateTime.now(),
+        expiry: DateTime.now().add(Duration(days: 3)),
+      );
+
+      var token = TokenUtil.generateToken(claim: claimSet);
+
+      return token;
+    } catch (err) {
+      rethrow;
+    }
   }
 
   AuthenticateUserResponse createResponse({

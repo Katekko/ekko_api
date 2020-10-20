@@ -6,9 +6,7 @@ import 'config.dart';
 
 void main() {
   var p = int.tryParse('${Config.port}');
-
   Logger().i('${Config.host}:${Config.port}');
-  Logger().wtf(('${Config.jwtKey}'));
 
   runApp(
     GetServer(
