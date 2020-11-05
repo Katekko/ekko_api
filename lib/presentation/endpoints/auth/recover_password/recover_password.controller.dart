@@ -1,12 +1,11 @@
 import 'package:api_ekko/domain/auth/auth.domain.service.dart';
 import 'package:api_ekko/domain/core/exceptions/invalid_body.exception.dart';
 import 'package:api_ekko/domain/core/exceptions/invalid_email.exception.dart';
-import 'package:api_ekko/presentation/auth/recover_password/dto/recover_password.response.dart';
 import 'package:get_server/get_server.dart';
-
 import 'package:meta/meta.dart';
 
 import 'dto/recover_password.body.dart';
+import 'dto/recover_password.response.dart';
 
 class RecoverPasswordController extends GetxController {
   AuthDomainService _authDomainService;
