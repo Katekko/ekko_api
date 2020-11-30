@@ -1,4 +1,6 @@
+import 'package:api_ekko/config.dart';
 import 'package:api_ekko/domain/auth/auth.domain.service.dart';
+import 'package:api_ekko/domain/auth/models/token.model.dart';
 import 'package:api_ekko/domain/auth/models/user.model.dart';
 import 'package:api_ekko/domain/core/exceptions/authentication_failed.exception.dart';
 import 'package:api_ekko/domain/core/exceptions/invalid_body.exception.dart';
@@ -68,9 +70,12 @@ class AuthenticateUserController extends GetxController {
     @required UserModel user,
     @required String token,
   }) {
+    var claims = verifyJwtHS256Signature(token, Config.jwtKey);
+    var tokenModel = TokenModel(token: token, expiration: claims.expiry);
+
     var response = AuthenticateUserResponse(
       success: true,
-      data: DataResponse(user: user.toData(), token: token),
+      data: DataResponse(user: user.toData(), token: tokenModel.toData()),
     );
 
     return response;

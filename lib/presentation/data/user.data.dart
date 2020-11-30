@@ -9,8 +9,7 @@ class UserData {
 
   UserData({this.id, this.name, this.email});
 
-  factory UserData.fromJson(Map<String, dynamic> json) =>
-      _$UserDataFromJson(json);
+  factory UserData.fromJson(json) => _$UserDataFromJson(json);
 
   Map<String, dynamic> toJson() => _$UserDataToJson(this);
 }

@@ -1,4 +1,5 @@
 import 'package:api_ekko/presentation/data/user.data.dart';
+import 'package:api_ekko/presentation/endpoints/auth/data/token.data.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
 
@@ -21,7 +22,7 @@ class AuthenticateUserResponse {
 @JsonSerializable()
 class DataResponse {
   UserData user;
-  String token;
+  TokenData token;
 
   DataResponse({@required this.user, @required this.token});
 
