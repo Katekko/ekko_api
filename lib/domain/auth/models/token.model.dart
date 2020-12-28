@@ -3,11 +3,10 @@ import 'package:meta/meta.dart';
 
 class TokenModel {
   final String token;
-  final DateTime expiration;
 
-  const TokenModel({@required this.token, @required this.expiration});
+  const TokenModel({@required this.token});
 
   TokenData toData() {
-    return TokenData(token: token, expiration: expiration);
+    return TokenData(token: token);
   }
 }

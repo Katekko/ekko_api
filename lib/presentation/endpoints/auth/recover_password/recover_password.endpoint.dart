@@ -1,22 +1,25 @@
-import 'dart:async';
-
+import 'package:get_rx/get_rx.dart';
 import 'package:get_server/get_server.dart';
 
 import 'recover_password.controller.dart';
 
-class RecuperarSenhaEndpoint extends GetView<RecoverPasswordController> {
+class RecoverPasswordEndpoint extends StatefulWidget {
   @override
-  FutureOr<Widget> build(BuildContext context) async {
-    try {
-      var payload = await context.request.payload();
-      var body = await controller.validateBody(payload: payload);
-      await controller.recoverPassword(email: body.email);
-      var response = controller.createResponse();
+  _RecoverPasswordEndpointState createState() =>
+      _RecoverPasswordEndpointState();
+}
 
-      return Json(response);
-    } catch (err) {
-      var errorResponse = controller.createErrorResponse(context, err);
-      return Json(errorResponse);
-    }
+class _RecoverPasswordEndpointState extends State<RecoverPasswordEndpoint> {
+  final RecoverPasswordController controller = Get.find();
+  final response = Rx<Widget>();
+
+  @override
+  Widget build(BuildContext context) {
+    context.request.payload().then((payload) async {
+      var res = await controller.initRequest(payload);
+      response.value = res;
+    });
+
+    return Obx(() => response.value == null ? WidgetEmpty() : response.value);
   }
 }

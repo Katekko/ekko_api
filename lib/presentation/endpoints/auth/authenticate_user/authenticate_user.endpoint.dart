@@ -1,30 +1,25 @@
-import 'dart:async';
-
+import 'package:get_rx/get_rx.dart';
 import 'package:get_server/get_server.dart';
 
 import 'authenticate_user.controller.dart';
 
-class AuthenticateUserEndpoint extends GetView<AuthenticateUserController> {
+class AuthenticateUserEndpoint extends StatefulWidget {
   @override
-  FutureOr<Widget> build(BuildContext context) async {
-    try {
-      var payload = await context.request.payload();
+  _AuthenticateUserEndpointState createState() =>
+      _AuthenticateUserEndpointState();
+}
 
-      var body = await controller.validateBody(payload: payload);
+class _AuthenticateUserEndpointState extends State<AuthenticateUserEndpoint> {
+  final AuthenticateUserController controller = Get.find();
+  final response = Rx<Widget>();
 
-      var user = await controller.authenticateUser(
-        login: body.login,
-        password: body.password,
-      );
+  @override
+  Widget build(BuildContext context) {
+    context.request.payload().then((payload) async {
+      var res = await controller.initRequest(payload);
+      response.value = res;
+    });
 
-      var token = controller.generateToken(user: user);
-
-      var response = controller.createResponse(user: user, token: token);
-
-      return Json(response);
-    } catch (err) {
-      var errorResponse = controller.createErrorResponse(context, err);
-      return Json(errorResponse);
-    }
+    return Obx(() => response.value == null ? WidgetEmpty() : response.value);
   }
 }

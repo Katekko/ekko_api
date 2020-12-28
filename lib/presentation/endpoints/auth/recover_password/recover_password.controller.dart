@@ -8,12 +8,21 @@ import 'dto/recover_password.body.dart';
 import 'dto/recover_password.response.dart';
 
 class RecoverPasswordController extends GetxController {
-  AuthDomainService _authDomainService;
-  RecoverPasswordController({@required AuthDomainService authDomainService}) {
-    _authDomainService = authDomainService;
+  final AuthDomainService _authDomainService;
+  RecoverPasswordController({@required AuthDomainService authDomainService})
+      : _authDomainService = authDomainService;
+
+  Future<Widget> initRequest(Map<dynamic, dynamic> payload) async {
+    try {
+      var body = await _validateBody(payload: payload);
+      await _recoverPassword(email: body.email);
+      return _createResponse();
+    } catch (err) {
+      return _createErrorResponse(err);
+    }
   }
 
-  Future<RecoverPasswordBody> validateBody({
+  Future<RecoverPasswordBody> _validateBody({
     @required Map<dynamic, dynamic> payload,
   }) async {
     try {
@@ -30,39 +39,36 @@ class RecoverPasswordController extends GetxController {
     }
   }
 
-  Future<void> recoverPassword({@required String email}) async {
+  Future<void> _recoverPassword({@required String email}) async {
     await _authDomainService.recoverPassword(email: email);
   }
 
-  RecoverPasswordResponse createResponse() {
-    var response = RecoverPasswordResponse(
-      success: true,
-      data: DataResponse(),
-    );
-
-    return response;
+  Widget _createResponse() {
+    var response = RecoverPasswordResponse(success: true, data: DataResponse());
+    return Json(response);
   }
 
-  RecoverPasswordResponse createErrorResponse(
-    BuildContext context,
-    dynamic exception,
-  ) {
+  Widget _createErrorResponse(dynamic exception) {
     String error;
+    int status;
     switch (exception.runtimeType) {
-      case InvalidEmailException:
-        context.statusCode(404);
-        error = 'Nonexistent e-mail';
-        break;
       case InvalidBodyException:
-        context.statusCode(400);
+        status = 400;
         error = exception.toString();
         break;
+      case InvalidEmailException:
+        status = 404;
+        error = 'Nonexistent e-mail';
+        break;
       default:
-        context.statusCode(500);
+        status = 500;
         error = exception.toString();
         break;
     }
 
-    return RecoverPasswordResponse(success: false, error: error);
+    return StatusCode(
+      statusCode: status,
+      child: Json(RecoverPasswordResponse(success: false, error: error)),
+    );
   }
 }

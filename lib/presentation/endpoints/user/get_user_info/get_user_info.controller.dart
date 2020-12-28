@@ -10,12 +10,20 @@ import 'package:meta/meta.dart';
 import 'dto/get_user_info.response.dart';
 
 class GetUserInfoController extends GetxController {
-  AuthDomainService _authDomainService;
-  GetUserInfoController({@required AuthDomainService authDomainService}) {
-    _authDomainService = authDomainService;
+  final AuthDomainService _authDomainService;
+  GetUserInfoController({@required AuthDomainService authDomainService})
+      : _authDomainService = authDomainService;
+
+  Future<Widget> initRequest(Map<dynamic, dynamic> payload) async {
+    try {
+      var user = await _getUserInfo();
+      return _createResponse(user: user);
+    } catch (err) {
+      return _createErrorResponse(err);
+    }
   }
 
-  Future<UserModel> getUserInfo() async {
+  Future<UserModel> _getUserInfo() async {
     try {
       var user = await _authDomainService.getUserInfo();
       return user;
@@ -24,33 +32,37 @@ class GetUserInfoController extends GetxController {
     }
   }
 
-  GetUserInfoResponse createResponse({@required UserModel user}) {
+  Widget _createResponse({@required UserModel user}) {
     var response = GetUserInfoResponse(
       success: true,
       data: DataResponse(user: user.toData()),
     );
 
-    return response;
+    return Json(response);
   }
 
-  GetUserInfoResponse createErrorResponse(
-    BuildContext context,
-    dynamic exception,
-  ) {
+  Widget _createErrorResponse(dynamic exception) {
+    String error;
+    int status;
     switch (exception.runtimeType) {
       case InvalidBodyException:
-        context.statusCode(400);
+        status = 400;
+        error = exception.toString();
         break;
       case MissingTokenException:
       case ExpiredTokenException:
       case JwtException:
-        context.statusCode(401);
+        status = 401;
         break;
       default:
-        context.statusCode(500);
+        status = 500;
+        error = exception.toString();
         break;
     }
 
-    return GetUserInfoResponse(success: false, error: exception.toString());
+    return StatusCode(
+      statusCode: status,
+      child: Json(GetUserInfoResponse(success: false, error: error)),
+    );
   }
 }

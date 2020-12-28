@@ -25,7 +25,7 @@ class Nav {
     GetPage(
       name: Routes.RECOVER_PASSWORD,
       method: Method.post,
-      page: () => RecuperarSenhaEndpoint(),
+      page: () => RecoverPasswordEndpoint(),
       binding: RecoverPasswordControllerBinding(),
     ),
     GetPage(

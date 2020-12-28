@@ -1,4 +1,3 @@
-import 'package:api_ekko/config.dart';
 import 'package:api_ekko/domain/auth/auth.domain.service.dart';
 import 'package:api_ekko/domain/auth/models/token.model.dart';
 import 'package:api_ekko/domain/auth/models/user.model.dart';
@@ -6,19 +5,34 @@ import 'package:api_ekko/domain/core/exceptions/authentication_failed.exception.
 import 'package:api_ekko/domain/core/exceptions/invalid_body.exception.dart';
 import 'package:get_server/get_server.dart';
 import 'package:jaguar_jwt/jaguar_jwt.dart';
-
 import 'package:meta/meta.dart';
 
 import 'dto/authenticate_user.body.dart';
 import 'dto/authenticate_user.response.dart';
 
 class AuthenticateUserController extends GetxController {
-  AuthDomainService _authDomainService;
-  AuthenticateUserController({@required AuthDomainService authDomainService}) {
-    _authDomainService = authDomainService;
+  final AuthDomainService _authDomainService;
+  AuthenticateUserController({@required AuthDomainService authDomainService})
+      : _authDomainService = authDomainService;
+
+  Future<Widget> initRequest(Map<dynamic, dynamic> payload) async {
+    try {
+      var body = await _validateBody(payload: payload);
+
+      var user = await _authenticateUser(
+        login: body.login,
+        password: body.password,
+      );
+
+      var token = _generateToken(user: user);
+
+      return _createResponse(user: user, token: token);
+    } catch (err) {
+      return _createErrorResponse(err);
+    }
   }
 
-  Future<AuthenticateUserBody> validateBody({
+  Future<AuthenticateUserBody> _validateBody({
     @required Map<dynamic, dynamic> payload,
   }) async {
     try {
@@ -37,7 +51,7 @@ class AuthenticateUserController extends GetxController {
     }
   }
 
-  Future<UserModel> authenticateUser({
+  Future<UserModel> _authenticateUser({
     @required String login,
     @required String password,
   }) async {
@@ -49,7 +63,7 @@ class AuthenticateUserController extends GetxController {
     return user;
   }
 
-  String generateToken({@required UserModel user}) {
+  String _generateToken({@required UserModel user}) {
     try {
       final claimSet = JwtClaim(
         subject: user.id.toString(),
@@ -66,41 +80,40 @@ class AuthenticateUserController extends GetxController {
     }
   }
 
-  AuthenticateUserResponse createResponse({
-    @required UserModel user,
-    @required String token,
-  }) {
-    var claims = verifyJwtHS256Signature(token, Config.jwtKey);
-    var tokenModel = TokenModel(token: token, expiration: claims.expiry);
+  Widget _createResponse({@required UserModel user, @required String token}) {
+    var tokenModel = TokenModel(token: token);
 
     var response = AuthenticateUserResponse(
       success: true,
       data: DataResponse(user: user.toData(), token: tokenModel.toData()),
     );
 
-    return response;
+    return Json(response);
   }
 
-  AuthenticateUserResponse createErrorResponse(
-    BuildContext context,
-    dynamic exception,
-  ) {
+  Widget _createErrorResponse(dynamic exception) {
     String error;
+    int status;
     switch (exception.runtimeType) {
       case InvalidBodyException:
-        context.statusCode(400);
+        status = 400;
         error = exception.toString();
         break;
       case AuthenticationFailedException:
-        context.statusCode(404);
+        status = 404;
         error = 'User and/or password is wrong';
         break;
       default:
-        context.statusCode(500);
+        status = 500;
         error = exception.toString();
         break;
     }
 
-    return AuthenticateUserResponse(success: false, error: error);
+    return StatusCode(
+      statusCode: status,
+      child: Json(
+        AuthenticateUserResponse(success: false, error: error),
+      ),
+    );
   }
 }
