@@ -15,11 +15,14 @@ class _AuthenticateUserEndpointState extends State<AuthenticateUserEndpoint> {
 
   @override
   Widget build(BuildContext context) {
-    context.request.payload().then((payload) async {
-      var res = await controller.initRequest(payload);
-      response.value = res;
-    });
+    return PayloadWidget(
+      builder: (_, payload) {
+        controller.initRequest(payload).then((value) => response.value = value);
 
-    return Obx(() => response.value == null ? WidgetEmpty() : response.value);
+        return Obx(
+          () => response.value == null ? WidgetEmpty() : response.value,
+        );
+      },
+    );
   }
 }

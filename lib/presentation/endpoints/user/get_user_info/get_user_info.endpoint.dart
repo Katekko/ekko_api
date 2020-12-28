@@ -14,10 +14,7 @@ class _GetUserInfoEndpointState extends State<GetUserInfoEndpoint> {
 
   @override
   Widget build(BuildContext context) {
-    context.request.payload().then((payload) async {
-      var res = await controller.initRequest(payload);
-      response.value = res;
-    });
+    controller.initRequest(null).then((value) => response.value = value);
 
     return Obx(() => response.value == null ? WidgetEmpty() : response.value);
   }

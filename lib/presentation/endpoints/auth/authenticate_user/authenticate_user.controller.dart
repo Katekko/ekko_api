@@ -28,7 +28,7 @@ class AuthenticateUserController extends GetxController {
 
       return _createResponse(user: user, token: token);
     } catch (err) {
-      return _createErrorResponse(err);
+      return createErrorResponse(err);
     }
   }
 
@@ -91,7 +91,7 @@ class AuthenticateUserController extends GetxController {
     return Json(response);
   }
 
-  Widget _createErrorResponse(dynamic exception) {
+  Widget createErrorResponse(dynamic exception) {
     String error;
     int status;
     switch (exception.runtimeType) {
