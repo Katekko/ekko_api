@@ -6,7 +6,7 @@ import 'package:api_ekko/domain/core/exceptions/invalid_body.exception.dart';
 import 'package:get_server/get_server.dart';
 import 'package:jaguar_jwt/jaguar_jwt.dart';
 import 'package:meta/meta.dart';
-
+import 'package:get_rx/get_rx.dart';
 import 'dto/authenticate_user.body.dart';
 import 'dto/authenticate_user.response.dart';
 
@@ -116,4 +116,6 @@ class AuthenticateUserController extends GetxController {
       ),
     );
   }
+
+  final responseData = Rx<Widget>();
 }
