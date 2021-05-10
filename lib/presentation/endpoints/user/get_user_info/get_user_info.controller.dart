@@ -13,7 +13,7 @@ class GetUserInfoController extends GetxController {
   GetUserInfoController({required AuthDomainService authDomainService})
       : _authDomainService = authDomainService;
 
-  Future<Widget> initRequest(Map<dynamic, dynamic>? payload) async {
+  Future<Widget> initRequest({Map<dynamic, dynamic>? payload}) async {
     try {
       var user = await _getUserInfo();
       return _createResponse(user: user);
@@ -65,4 +65,6 @@ class GetUserInfoController extends GetxController {
       child: Json(GetUserInfoResponse(success: false, error: error)),
     );
   }
+
+  final responseData = Rxn<Widget>();
 }

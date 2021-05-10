@@ -5,11 +5,11 @@ environment:
 
 dependencies:
   logger: ^1.0.0
-  get_server: ^1.0.0
+  get_server: ^1.1.0
   uuid: ^3.0.3
 
   # get_server:
-  #   path: "C:/Projetos/Personal/libs/get_server"
+  #   path: "/home/katekko/Projects/Personal/LIBS/get_server"
   # get_server:
   #   git:
   #     url: https://github.com/Katekko/get_server.git

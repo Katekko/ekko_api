@@ -70,4 +70,6 @@ class RecoverPasswordController extends GetxController {
       child: Json(RecoverPasswordResponse(success: false, error: error)),
     );
   }
+
+  final responseData = Rxn<Widget>();
 }

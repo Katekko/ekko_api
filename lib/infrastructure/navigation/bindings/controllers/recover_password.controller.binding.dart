@@ -7,7 +7,7 @@ class RecoverPasswordControllerBinding extends Bindings {
   void dependencies() {
     var authDomainBinding = AuthDomainBinding();
 
-    Get.lazyPut<RecoverPasswordController>(
+    Get.create<RecoverPasswordController>(
       () => RecoverPasswordController(
         authDomainService: authDomainBinding.domain,
       ),
