@@ -7,7 +7,7 @@ class AuthenticateUserControllerBinding extends Bindings {
   void dependencies() {
     var authDomainBinding = AuthDomainBinding();
 
-    Get.lazyPut<AuthenticateUserController>(
+    Get.create<AuthenticateUserController>(
       () => AuthenticateUserController(
         authDomainService: authDomainBinding.domain,
       ),

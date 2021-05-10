@@ -8,8 +8,8 @@ part of 'authenticate_user.body.dart';
 
 AuthenticateUserBody _$AuthenticateUserBodyFromJson(Map<String, dynamic> json) {
   return AuthenticateUserBody(
-    login: json['login'] as String,
-    password: json['password'] as String,
+    login: json['login'] as String?,
+    password: json['password'] as String?,
   );
 }
 

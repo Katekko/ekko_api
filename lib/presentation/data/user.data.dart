@@ -4,10 +4,15 @@ part 'user.data.g.dart';
 
 @JsonSerializable()
 class UserData {
-  int id;
-  String name, email;
+  final String id;
+  final String login, name, email;
 
-  UserData({this.id, this.name, this.email});
+  const UserData({
+    required this.id,
+    required this.login,
+    required this.name,
+    required this.email,
+  });
 
   factory UserData.fromJson(json) => _$UserDataFromJson(json);
 

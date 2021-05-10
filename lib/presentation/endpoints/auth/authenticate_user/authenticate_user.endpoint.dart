@@ -1,27 +1,19 @@
-import 'package:get_rx/get_rx.dart';
 import 'package:get_server/get_server.dart';
 
 import 'authenticate_user.controller.dart';
 
-class AuthenticateUserEndpoint extends StatefulWidget {
-  @override
-  _AuthenticateUserEndpointState createState() =>
-      _AuthenticateUserEndpointState();
-}
-
-class _AuthenticateUserEndpointState extends State<AuthenticateUserEndpoint> {
-  final AuthenticateUserController controller = Get.find();
-  final response = Rx<Widget>();
-
+class AuthenticateUserEndpoint extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final controller = Get.find<AuthenticateUserController>();
+
     return PayloadWidget(
       builder: (_, payload) {
-        controller.initRequest(payload).then((value) => response.value = value);
+        controller
+            .initRequest(payload as Map<String, dynamic>)
+            .then((value) => controller.responseData.value = value);
 
-        return Obx(
-          () => response.value == null ? WidgetEmpty() : response.value,
-        );
+        return Obx(() => controller.responseData.value ?? WidgetEmpty());
       },
     );
   }

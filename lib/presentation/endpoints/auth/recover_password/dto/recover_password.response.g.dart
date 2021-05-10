@@ -11,9 +11,7 @@ RecoverPasswordResponse _$RecoverPasswordResponseFromJson(
   return RecoverPasswordResponse(
     success: json['success'] as bool,
     error: json['error'] as String,
-    data: json['data'] == null
-        ? null
-        : DataResponse.fromJson(json['data'] as Map<String, dynamic>),
+    data: DataResponse.fromJson(json['data'] as Map<String, dynamic>),
   );
 }
 
