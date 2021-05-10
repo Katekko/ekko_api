@@ -1,11 +1,10 @@
 import 'package:api_ekko/domain/core/exceptions/authentication_failed.exception.dart';
 import 'package:api_ekko/domain/core/exceptions/invalid_email.exception.dart';
-import 'package:meta/meta.dart';
 
 class AuthDomainRepository {
   bool validateUserPassword({
-    @required String login,
-    @required String password,
+    required String login,
+    required String password,
   }) {
     try {
       if (login == 'contato@gyanburuworld.com' && password == '123456') {
@@ -18,7 +17,7 @@ class AuthDomainRepository {
     }
   }
 
-  void recoverPassword({@required String email}) {
+  void recoverPassword({required String email}) {
     try {
       if (email != 'contato@gyanburuworld.com') {
         throw InvalidEmailException();

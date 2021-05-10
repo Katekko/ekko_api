@@ -5,16 +5,15 @@ import 'package:api_ekko/domain/core/exceptions/invalid_body.exception.dart';
 import 'package:api_ekko/domain/core/exceptions/missing_token.exception.dart';
 import 'package:get_server/get_server.dart';
 import 'package:jaguar_jwt/jaguar_jwt.dart';
-import 'package:meta/meta.dart';
 
 import 'dto/get_user_info.response.dart';
 
 class GetUserInfoController extends GetxController {
   final AuthDomainService _authDomainService;
-  GetUserInfoController({@required AuthDomainService authDomainService})
+  GetUserInfoController({required AuthDomainService authDomainService})
       : _authDomainService = authDomainService;
 
-  Future<Widget> initRequest(Map<dynamic, dynamic> payload) async {
+  Future<Widget> initRequest(Map<dynamic, dynamic>? payload) async {
     try {
       var user = await _getUserInfo();
       return _createResponse(user: user);
@@ -32,7 +31,7 @@ class GetUserInfoController extends GetxController {
     }
   }
 
-  Widget _createResponse({@required UserModel user}) {
+  Widget _createResponse({required UserModel user}) {
     var response = GetUserInfoResponse(
       success: true,
       data: DataResponse(user: user.toData()),
@@ -42,8 +41,9 @@ class GetUserInfoController extends GetxController {
   }
 
   Widget _createErrorResponse(dynamic exception) {
-    String error;
+    String error = 'Fatal Error';
     int status;
+
     switch (exception.runtimeType) {
       case InvalidBodyException:
         status = 400;

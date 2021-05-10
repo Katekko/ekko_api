@@ -4,11 +4,10 @@ part 'recover_password.response.g.dart';
 
 @JsonSerializable()
 class RecoverPasswordResponse {
-  bool success;
-  DataResponse data;
-  String error;
-
-  RecoverPasswordResponse({this.success, this.error, this.data});
+  final bool success;
+  final DataResponse? data;
+  final String? error;
+  const RecoverPasswordResponse({required this.success, this.error, this.data});
 
   factory RecoverPasswordResponse.fromJson(Map<String, dynamic> json) =>
       _$RecoverPasswordResponseFromJson(json);

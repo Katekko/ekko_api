@@ -2,20 +2,19 @@ import 'package:api_ekko/domain/auth/auth.domain.service.dart';
 import 'package:api_ekko/domain/core/exceptions/invalid_body.exception.dart';
 import 'package:api_ekko/domain/core/exceptions/invalid_email.exception.dart';
 import 'package:get_server/get_server.dart';
-import 'package:meta/meta.dart';
 
 import 'dto/recover_password.body.dart';
 import 'dto/recover_password.response.dart';
 
 class RecoverPasswordController extends GetxController {
   final AuthDomainService _authDomainService;
-  RecoverPasswordController({@required AuthDomainService authDomainService})
+  RecoverPasswordController({required AuthDomainService authDomainService})
       : _authDomainService = authDomainService;
 
-  Future<Widget> initRequest(Map<dynamic, dynamic> payload) async {
+  Future<Widget> initRequest(Map<String, dynamic>? payload) async {
     try {
       var body = await _validateBody(payload: payload);
-      await _recoverPassword(email: body.email);
+      await _recoverPassword(email: body.email!);
       return _createResponse();
     } catch (err) {
       return _createErrorResponse(err);
@@ -23,7 +22,7 @@ class RecoverPasswordController extends GetxController {
   }
 
   Future<RecoverPasswordBody> _validateBody({
-    @required Map<dynamic, dynamic> payload,
+    required Map<String, dynamic>? payload,
   }) async {
     try {
       if (payload == null) throw InvalidBodyException(field: 'payload');
@@ -39,7 +38,7 @@ class RecoverPasswordController extends GetxController {
     }
   }
 
-  Future<void> _recoverPassword({@required String email}) async {
+  Future<void> _recoverPassword({required String email}) async {
     await _authDomainService.recoverPassword(email: email);
   }
 

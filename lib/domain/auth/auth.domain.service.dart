@@ -1,26 +1,29 @@
 import 'package:api_ekko/domain/auth/models/user.model.dart';
-import 'package:meta/meta.dart';
+import 'package:uuid/uuid.dart';
 
 import 'auth.domain.repository.dart';
 
 class AuthDomainService {
-  AuthDomainRepository _authDomainRepository;
-  AuthDomainService({AuthDomainRepository authDomainRepository}) {
-    _authDomainRepository = authDomainRepository;
-  }
+  final AuthDomainRepository _repository;
+  const AuthDomainService({required AuthDomainRepository repository})
+      : _repository = repository;
 
-  Future<UserModel> authenticateUser({String login, String password}) {
+  Future<UserModel> authenticateUser({
+    required String login,
+    required String password,
+  }) {
     try {
-      _authDomainRepository.validateUserPassword(
+      _repository.validateUserPassword(
         login: login,
         password: password,
       );
 
       return Future.value(
         UserModel(
-          id: 1,
+          id: Uuid().v1(),
           email: 'contato@gyanburuworld.com',
-          name: 'Katekko',
+          login: 'Katekko',
+          name: 'Guest001',
         ),
       );
     } catch (err) {
@@ -28,9 +31,9 @@ class AuthDomainService {
     }
   }
 
-  void recoverPassword({@required String email}) {
+  Future<void> recoverPassword({required String email}) async {
     try {
-      _authDomainRepository.recoverPassword(email: email);
+      _repository.recoverPassword(email: email);
     } catch (err) {
       rethrow;
     }
@@ -40,9 +43,10 @@ class AuthDomainService {
     try {
       return Future.value(
         UserModel(
-          id: 1,
+          id: Uuid().v1(),
           email: 'contato@gyanburuworld.com',
-          name: 'Katekko',
+          login: 'Katekko',
+          name: 'Guest001',
         ),
       );
     } catch (err) {

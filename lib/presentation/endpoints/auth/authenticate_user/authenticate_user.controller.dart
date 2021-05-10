@@ -5,23 +5,21 @@ import 'package:api_ekko/domain/core/exceptions/authentication_failed.exception.
 import 'package:api_ekko/domain/core/exceptions/invalid_body.exception.dart';
 import 'package:get_server/get_server.dart';
 import 'package:jaguar_jwt/jaguar_jwt.dart';
-import 'package:meta/meta.dart';
-import 'package:get_rx/get_rx.dart';
 import 'dto/authenticate_user.body.dart';
 import 'dto/authenticate_user.response.dart';
 
 class AuthenticateUserController extends GetxController {
   final AuthDomainService _authDomainService;
-  AuthenticateUserController({@required AuthDomainService authDomainService})
+  AuthenticateUserController({required AuthDomainService authDomainService})
       : _authDomainService = authDomainService;
 
-  Future<Widget> initRequest(Map<dynamic, dynamic> payload) async {
+  Future<Widget> initRequest(Map<String, dynamic>? payload) async {
     try {
       var body = await _validateBody(payload: payload);
 
       var user = await _authenticateUser(
-        login: body.login,
-        password: body.password,
+        login: body.login!,
+        password: body.password!,
       );
 
       var token = _generateToken(user: user);
@@ -33,27 +31,28 @@ class AuthenticateUserController extends GetxController {
   }
 
   Future<AuthenticateUserBody> _validateBody({
-    @required Map<dynamic, dynamic> payload,
+    required Map<String, dynamic>? payload,
   }) async {
     try {
-      if (payload == null) throw InvalidBodyException(field: 'payload');
+      if (payload != null) {
+        var body = AuthenticateUserBody.fromJson(payload);
+        if (body.login?.isEmpty ?? true) {
+          throw InvalidBodyException(field: 'login');
+        } else if (body.password?.isEmpty ?? true) {
+          throw InvalidBodyException(field: 'password');
+        }
 
-      var body = AuthenticateUserBody.fromJson(payload);
-      if (body.login?.isEmpty ?? true) {
-        throw InvalidBodyException(field: 'login');
-      } else if (body.password?.isEmpty ?? true) {
-        throw InvalidBodyException(field: 'password');
+        return body;
       }
-
-      return body;
+      throw InvalidBodyException(field: 'payload');
     } catch (err) {
       rethrow;
     }
   }
 
   Future<UserModel> _authenticateUser({
-    @required String login,
-    @required String password,
+    required String login,
+    required String password,
   }) async {
     var user = await _authDomainService.authenticateUser(
       login: login,
@@ -63,7 +62,7 @@ class AuthenticateUserController extends GetxController {
     return user;
   }
 
-  String _generateToken({@required UserModel user}) {
+  String _generateToken({required UserModel user}) {
     try {
       final claimSet = JwtClaim(
         subject: user.id.toString(),
@@ -80,7 +79,7 @@ class AuthenticateUserController extends GetxController {
     }
   }
 
-  Widget _createResponse({@required UserModel user, @required String token}) {
+  Widget _createResponse({required UserModel user, required String token}) {
     var tokenModel = TokenModel(token: token);
 
     var response = AuthenticateUserResponse(
@@ -117,5 +116,5 @@ class AuthenticateUserController extends GetxController {
     );
   }
 
-  final responseData = Rx<Widget>();
+  final responseData = Rxn<Widget>();
 }

@@ -4,11 +4,8 @@ part 'recover_password.body.g.dart';
 
 @JsonSerializable()
 class RecoverPasswordBody {
-  String email;
-
-  RecoverPasswordBody({String email}) {
-    this.email = email;
-  }
+  final String? email;
+  const RecoverPasswordBody({this.email});
 
   factory RecoverPasswordBody.fromJson(Map<String, dynamic> json) =>
       _$RecoverPasswordBodyFromJson(json);

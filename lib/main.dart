@@ -12,7 +12,7 @@ void main() {
     GetServer(
       getPages: Nav.routes,
       host: Config.host,
-      port: p,
+      port: p!,
       jwtKey: Config.jwtKey,
     ),
   );

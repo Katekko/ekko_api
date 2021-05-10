@@ -8,8 +8,9 @@ class AuthenticateUserEndpoint extends GetView<AuthenticateUserController> {
     return PayloadWidget(
       builder: (_, payload) {
         controller
-            .initRequest(payload)
+            .initRequest(payload as Map<String, dynamic>)
             .then((value) => controller.responseData.value = value);
+
         return Obx(() => controller.responseData.value ?? WidgetEmpty());
       },
     );
